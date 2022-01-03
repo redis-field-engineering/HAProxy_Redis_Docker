@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "Generating configuration file from ENV vars"
+
+if [ -n "${HAPROXY_STATS_USER-unset}" ] ; then
+	export HAPROXY_STATS_USER="haproxy"
+fi
+
+if [ -n "${HAPROXY_STATS_PASSWORD-unset}" ] ; then
+	export HAPROXY_STATS_PASSWORD="MySekr1t"
+fi
+
+OFFSET=0
+
+HOSTS=${HAPROXY_UPSTREAM_HOSTS//,/$'\n'}
+
+
+envsubst < /usr/local/etc/haproxy/haproxy.tpl > /usr/local/etc/haproxy/haproxy.cfg
+echo " " >> /usr/local/etc/haproxy/haproxy.cfg
+
+for HOST in $HOSTS; do
+	echo "        server srv${OFFSET} ${HOST} check port ${HAPROXY_UPSTREAM_PORT}" >> /usr/local/etc/haproxy/haproxy.cfg
+	((OFFSET=OFFSET+1))
+done
+
+/usr/local/sbin/haproxy -W -db -f /usr/local/etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -S /run/haproxy-master.sock
