@@ -4,8 +4,8 @@
 
 ```
 docker run \
-	-e HAPROXY_UPSTREAM_HOSTS=1.1.1.1,1.1.1.2,1.1.1.3 \
-	-e HAPROXY_UPSTREAM_PORT=10000 \
+	-e HAPROXY_UPSTREAM_HOSTS=1.1.1.1:10000,1.1.1.2:10001,1.1.1.3:10003 \
+	-e HAPROXY_LISTEN_PORT=10000 \
 	--name myproxy \
 	-p 2112:2112 -p 10000:10000 \
 	--rm maguec/haproxy-tcp
@@ -20,8 +20,8 @@ docker run \
 
 | ENV Var | Usage | Example |
 | --- | --- | --- |
-|HAPROXY_UPSTREAM_HOSTS | comma separated list of upstream IP addresses for the servers| 1.1.1.1,1.1.1.2,1.1.1.3|
-|HAPROXY_UPSTREAM_PORT| port to forward to the upstream servers | 10000 |
+|HAPROXY_UPSTREAM_HOSTS | comma separated list of upstream IP addresses for the servers with ports| 1.1.1.1:2112,1.1.1.2:2112,1.1.1.3:2113|
+|HAPROXY_LISTEN_PORT | port that the HAProxy will listen on | 10000 |
 
 
 ### Optional

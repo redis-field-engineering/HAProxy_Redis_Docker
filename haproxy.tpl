@@ -53,14 +53,14 @@ listen  stats
 #		Redis Enterprise Redis Services
 ###################################################################
 
-# Redis Database on port ${HAPROXY_UPSTREAM_PORT}
-frontend redis-fe-${HAPROXY_UPSTREAM_PORT}
-        bind :${HAPROXY_UPSTREAM_PORT}
+# Redis Database on port ${HAPROXY_LISTEN_PORT}
+frontend redis-fe-${HAPROXY_LISTEN_PORT}
+        bind :${HAPROXY_LISTEN_PORT}
 	mode tcp
-        default_backend redis-be-${HAPROXY_UPSTREAM_PORT}
+        default_backend redis-be-${HAPROXY_LISTEN_PORT}
 	option tcplog
 
-backend redis-be-${HAPROXY_UPSTREAM_PORT}
+backend redis-be-${HAPROXY_LISTEN_PORT}
         option tcp-check
 	mode tcp
 	balance roundrobin
