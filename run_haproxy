@@ -21,7 +21,7 @@ echo " " >> /usr/local/etc/haproxy/haproxy.cfg
 for X in $HOSTS; do
 	HOST=`echo $X |awk -F: '{print $1}'`
 	HAPROXY_UPSTREAM_PORT=`echo $X |awk -F: '{print $2}'`
-	echo "        server srv${OFFSET} ${HOST} check port ${HAPROXY_UPSTREAM_PORT}" >> /usr/local/etc/haproxy/haproxy.cfg
+	echo "        server srv${OFFSET} ${HOST}:${HAPROXY_UPSTREAM_PORT} check port ${HAPROXY_UPSTREAM_PORT}" >> /usr/local/etc/haproxy/haproxy.cfg
 	((OFFSET=OFFSET+1))
 done
 
